@@ -11,7 +11,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const router = useRouter();f
+  // const router = useRouter();
   return (
     <html lang="en">
       <body>{children}</body>
