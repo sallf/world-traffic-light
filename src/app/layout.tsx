@@ -1,3 +1,4 @@
+// import { useRouter } from 'next/navigation';
 import './global.css';
 
 export const metadata = {
@@ -10,6 +11,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // const router = useRouter();f
   return (
     <html lang="en">
       <body>{children}</body>
