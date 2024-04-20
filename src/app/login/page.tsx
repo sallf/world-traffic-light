@@ -1,10 +1,10 @@
 interface Props {}
 
-const Index = () => {
+const Login = () => {
   // --------------------- ===
   //  RENDER
   // ---------------------
-  return <div>I'm a test page</div>;
+  return <div>I'm the login page</div>;
 };
 
-export default Index;
+export default Login;
