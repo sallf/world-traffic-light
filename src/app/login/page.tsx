@@ -1,5 +1,3 @@
-interface Props {}
-
 const Login = () => {
   // --------------------- ===
   //  RENDER

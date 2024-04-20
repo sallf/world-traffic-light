@@ -18,8 +18,7 @@
       "@world-traffic-light/components": ["libs/components/src/index.ts"],
       "@world-traffic-light/components/server": [
         "libs/components/src/server.ts"
-      ],
-      "@world-traffic-light/redux": ["libs/redux/src/index.ts"]
+      ]
     }
   },
   "exclude": [
