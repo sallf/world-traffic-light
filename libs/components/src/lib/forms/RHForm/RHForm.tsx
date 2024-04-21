@@ -36,7 +36,7 @@ export const RHForm = (props: Props) => {
   const formProps = useForm({
     ...(validationSchema && { resolver }),
   }) // only add resolver if there's a schema
-  const { handleSubmit, formState } = formProps
+  const { handleSubmit } = formProps
 
   useEffect(() => {
     if (defaultValues) {
@@ -48,10 +48,6 @@ export const RHForm = (props: Props) => {
   // --------------------- ===
   //  RENDER
   // ---------------------
-  const errorsCount = formState.errors
-    ? Object.keys(formState.errors).length
-    : 0
-
   return (
     <form onSubmit={handleSubmit(onClick)} className={className} {...rest}>
       {validationSchema && (
@@ -59,15 +55,9 @@ export const RHForm = (props: Props) => {
           {children}
         </ChildrenLoop>
       )}
-      <div className="mt-2 flex gap-2 justify-end w-full col-span-full">
+      <div className="flex gap-2 justify-end w-full col-span-full">
         <Cta type="submit">Sign In</Cta>
       </div>
-      {errorsCount > 0 && (
-        <div
-          role="alert"
-          className={`text-theme-error text-sm basis-full text-right`}
-        >{`You have (${errorsCount}) error${errorsCount > 1 ? 's' : ''}`}</div>
-      )}
       <input type="submit" className="hidden" />
     </form>
   )

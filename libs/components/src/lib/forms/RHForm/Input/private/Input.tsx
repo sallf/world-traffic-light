@@ -45,7 +45,7 @@ export const Input = (props: Props) => {
     />
   )
   return (
-    <>
+    <div className="relative w-full pb-6 flex flex-col">
       {prefix ? (
         <span className="flex w-full">
           <span className="text-sm text-kap-black flex-grow-0 px-4 bg-gray-500 rounded -mr-4 pr-6 flex items-center">
@@ -56,7 +56,9 @@ export const Input = (props: Props) => {
       ) : (
         input
       )}
-      <FieldError error={error} />
-    </>
+      <div className="absolute bottom-0">
+        <FieldError error={error} />
+      </div>
+    </div>
   )
 }
