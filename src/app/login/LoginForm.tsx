@@ -7,7 +7,9 @@ export const LoginForm = () => {
   //  RENDER
   // ---------------------
   const validationSchema: AnyObject = object({
-    username: string().required('Username is required'),
+    username: string()
+      .min(3, 'Username is too short')
+      .required('Username is required'),
   })
   return (
     <RHForm

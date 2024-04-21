@@ -6,11 +6,12 @@ import type { AnyObject } from 'yup'
 
 import { ChildrenLoop } from './ChildrenLoop'
 import { useYupValidationResolver } from '@world-traffic-light/hooks'
+import { Cta } from '../../buttons'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
-  validationSchema?: AnyObject | null
   onClick: () => void
+  validationSchema?: AnyObject | null
   className?: string
   defaultValues?: FieldValues | null
 }
@@ -21,8 +22,8 @@ export const RHForm = (props: Props) => {
   // ---------------------
   const {
     children,
-    validationSchema = null,
     onClick,
+    validationSchema = null,
     className = 'flex flex-wrap gap-4',
     defaultValues = null, // can be passed as array here, or individually to each component
     ...rest
@@ -42,7 +43,7 @@ export const RHForm = (props: Props) => {
       formProps.reset(defaultValues)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValues]) // only default values
+  }, [defaultValues]) // only defaultValues
 
   // --------------------- ===
   //  RENDER
@@ -59,7 +60,7 @@ export const RHForm = (props: Props) => {
         </ChildrenLoop>
       )}
       <div className="mt-2 flex gap-2 justify-end w-full col-span-full">
-        <button type="submit">Sign In</button>
+        <Cta type="submit">Sign In</Cta>
       </div>
       {errorsCount > 0 && (
         <div
