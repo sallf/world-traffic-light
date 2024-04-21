@@ -1,15 +1,22 @@
 'use client'
 import { RHForm, Text } from '@world-traffic-light/components'
 import { setCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 import { FieldValues } from 'react-hook-form'
 import { AnyObject, object, string } from 'yup'
 
 export const LoginForm = () => {
   // --------------------- ===
+  //  PROPS
+  // ---------------------
+  const router = useRouter()
+
+  // --------------------- ===
   //  HANDLERS
   // ---------------------
-  async function handleSubmit(values: FieldValues) {
+  const handleSubmit = async (values: FieldValues) => {
     setCookie('username', values.username)
+    router.push('/app')
   }
 
   // --------------------- ===
