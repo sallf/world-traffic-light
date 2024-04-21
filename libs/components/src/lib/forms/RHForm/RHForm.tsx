@@ -10,7 +10,7 @@ import { Cta } from '../../buttons'
 
 interface Props extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode
-  onClick: () => void
+  onSubmit: (data: FieldValues) => void
   validationSchema?: AnyObject | null
   className?: string
   defaultValues?: FieldValues | null
@@ -22,7 +22,7 @@ export const RHForm = (props: Props) => {
   // ---------------------
   const {
     children,
-    onClick,
+    onSubmit,
     validationSchema = null,
     className = 'flex flex-wrap gap-4',
     defaultValues = null, // can be passed as array here, or individually to each component
@@ -49,7 +49,7 @@ export const RHForm = (props: Props) => {
   //  RENDER
   // ---------------------
   return (
-    <form onSubmit={handleSubmit(onClick)} className={className} {...rest}>
+    <form onSubmit={handleSubmit(onSubmit)} className={className} {...rest}>
       {validationSchema && (
         <ChildrenLoop validationSchema={validationSchema} formProps={formProps}>
           {children}
