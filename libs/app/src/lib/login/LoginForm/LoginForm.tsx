@@ -1,5 +1,5 @@
 'use client'
-import { RHForm, Text } from '@world-traffic-light/components'
+import { RHForm, Text } from '@world-traffic-light/shared'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import { FieldValues } from 'react-hook-form'
