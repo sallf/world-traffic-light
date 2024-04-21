@@ -2,9 +2,7 @@
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 
-interface Props {}
-
-export const App = () => {
+const AppPage = () => {
   // --------------------- ===
   //  PROPS
   // ---------------------
@@ -28,4 +26,4 @@ export const App = () => {
   )
 }
 
-export default App
+export default AppPage
