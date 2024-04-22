@@ -1,4 +1,6 @@
-import mapboxgl from '!mapbox-gl' // eslint-disable-line import/no-webpack-loader-syntax
+'use client'
+
+import mapboxgl from '!mapbox-gl'
 import { useState, useRef, useEffect } from 'react'
 
 mapboxgl.accessToken =
@@ -14,32 +16,34 @@ export const Map = () => {
   const [lat, setLat] = useState(42.35)
   const [zoom, setZoom] = useState(9)
 
+  const [mapContainer, setMapContainer] = useState<HTMLDivElement | null>(null)
+
   // --------------------- ===
   //  REFS
   // ---------------------
-  const mapContainer = useRef(null)
-  const map = useRef(
-    new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [lng, lat],
-      zoom: zoom,
-    })
-  )
+  const map = useRef<mapboxgl.Map | null>(null)
 
   // --------------------- ===
   //  EFFECTS
   // ---------------------
   useEffect(() => {
+    if (!mapContainer) return
+    map.current = new mapboxgl.Map({
+      container: mapContainer,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [lng, lat],
+      zoom: zoom,
+    })
     map.current.on('move', () => {
       setLng(map.current.getCenter().lng.toFixed(4))
       setLat(map.current.getCenter().lat.toFixed(4))
       setZoom(map.current.getZoom().toFixed(2))
     })
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapContainer]) // only mapContainer
 
   // --------------------- ===
   //  RENDER
   // ---------------------
-  return <div ref={mapContainer} className="map-container w-full h-52" />
+  return <div ref={setMapContainer} className="map-container w-full h-52" />
 }
