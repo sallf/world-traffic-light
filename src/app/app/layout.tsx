@@ -17,7 +17,7 @@ const AppLayout = (props: Props) => {
   return (
     <div>
       <Header />
-      <main>{children}</main>
+      <main className="h-full">{children}</main>
     </div>
   )
 }

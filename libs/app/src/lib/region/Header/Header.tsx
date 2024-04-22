@@ -16,7 +16,7 @@ export const Header = () => {
   // ---------------------
   const user = getCookie('username')
   return (
-    <header className="relative w-full px-10 py-4 bg-slate-50 flex items-center justify-between">
+    <header className="relative w-full px-10 py-4 bg-slate-50 flex items-center justify-between z-10">
       <h1 className="text-xl text-slate-900 font-black">LandOS</h1>
       <button
         className="flex items-center"

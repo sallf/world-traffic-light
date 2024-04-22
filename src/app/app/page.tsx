@@ -5,7 +5,7 @@ const AppPage = () => {
   //  RENDER
   // ---------------------
   return (
-    <div>
+    <div className="absolute inset-0">
       <Map />
     </div>
   )
