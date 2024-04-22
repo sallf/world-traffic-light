@@ -11,11 +11,10 @@ interface Props {
   children: ReactNode
 }
 
-// There seems to be no right way to type this
 const isFieldRequired = (validationSchema: AnyObject, id: string) =>
   validationSchema
     .describe()
-    //@ts-expect-error
+    //@ts-expect-error name is string or undefined
     .fields[id].tests.some(({ name }) => name === 'required')
 
 const getFieldLimits = (validationSchema: AnyObject | null, id: string) => {

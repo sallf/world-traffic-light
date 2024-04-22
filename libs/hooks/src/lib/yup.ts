@@ -19,13 +19,14 @@ export const useYupValidationResolver = (validationSchema: AnyObject | null) =>
           values,
           errors: {},
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (errors: any) {
         return {
           values: {},
           errors: errors.inner.reduce(
             (allErrors: FieldErrors, currentError: FieldError) => ({
               ...allErrors,
-              // @ts-expect-error
+              // @ts-expect-error yup error path is a string
               [currentError.path]: {
                 type: currentError.type ?? 'validation',
                 message: currentError.message,
