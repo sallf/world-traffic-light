@@ -19,7 +19,8 @@
             ]
           }
         ],
-        "react/no-unescaped-entities": "off"
+        "react/no-unescaped-entities": "off",
+        "import/no-webpack-loader-syntax": "off"
       }
     },
     {

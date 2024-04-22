@@ -1,10 +1,9 @@
 import * as React from 'react'
 
-import { LoginForm } from './LoginForm'
-
 import bg from './bg.webp'
 import Image from 'next/image'
 import { Fingerprint } from '@mui/icons-material'
+import { LoginForm } from '@world-traffic-light/app'
 
 export default function Login() {
   return (

@@ -1,3 +1,5 @@
+'use client'
+
 import type { FormHTMLAttributes, ReactNode } from 'react'
 import { useEffect } from 'react'
 import type { FieldValues } from 'react-hook-form'

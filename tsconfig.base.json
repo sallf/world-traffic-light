@@ -15,12 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@world-traffic-light/components": ["libs/components/src/index.ts"],
-      "@world-traffic-light/components/server": [
-        "libs/components/src/server.ts"
-      ],
+      "@world-traffic-light/app": ["libs/app/src/index.ts"],
+      "@world-traffic-light/app/server": ["libs/app/src/server.ts"],
       "@world-traffic-light/hooks": ["libs/hooks/src/index.ts"],
-      "@world-traffic-light/hooks/server": ["libs/hooks/src/server.ts"]
+      "@world-traffic-light/hooks/server": ["libs/hooks/src/server.ts"],
+      "@world-traffic-light/shared": ["libs/shared/src/index.ts"],
+      "@world-traffic-light/shared/server": ["libs/shared/src/server.ts"]
     }
   },
   "exclude": [
