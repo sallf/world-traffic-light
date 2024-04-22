@@ -5,11 +5,24 @@ interface Props {
   children: ReactNode
 }
 
-const AppLayout = (props: Props) => {
+const AppLayout = async (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
   const { children } = props
+
+  async function getScores() {
+    const res = await fetch(`${process.env.VITE_API_URL}/scores?product=001`, {
+      method: 'GET',
+      headers: {
+        'X-API-Key': process.env.VITE_API_KEY,
+      },
+    })
+    return res.json()
+  }
+
+  const scores = await getScores()
+  console.log('scores :>> ', scores)
 
   // --------------------- ===
   //  RENDER
