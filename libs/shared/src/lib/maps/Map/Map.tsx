@@ -1,13 +1,11 @@
 'use client'
 
-// @ts-ignore
+// @ts-expect-error
 import mapboxgl from '!mapbox-gl' // this is installed
 import { useState, useRef, useEffect } from 'react'
 
 mapboxgl.accessToken =
   'pk.eyJ1Ijoic2FsbGYiLCJhIjoiY2x2YXlzZW9mMDM5YTJrbDQ2N3R3djk1eCJ9.xn1us-Rx1MhnfNbgLQ9dhQ'
-
-interface Props {}
 
 export const Map = () => {
   // --------------------- ===

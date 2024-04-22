@@ -25,7 +25,7 @@ export const useYupValidationResolver = (validationSchema: AnyObject | null) =>
           errors: errors.inner.reduce(
             (allErrors: FieldErrors, currentError: FieldError) => ({
               ...allErrors,
-              // @ts-ignore
+              // @ts-expect-error
               [currentError.path]: {
                 type: currentError.type ?? 'validation',
                 message: currentError.message,

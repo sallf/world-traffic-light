@@ -15,7 +15,7 @@ interface Props {
 const isFieldRequired = (validationSchema: AnyObject, id: string) =>
   validationSchema
     .describe()
-    //@ts-ignore
+    //@ts-expect-error
     .fields[id].tests.some(({ name }) => name === 'required')
 
 const getFieldLimits = (validationSchema: AnyObject | null, id: string) => {
@@ -68,7 +68,7 @@ export const ChildrenLoop = (props: Props) => {
       if (child.props.children) {
         // If we find a child with children, keep looping
         return cloneElement(child, {
-          // @ts-ignore - not sure how to type this
+          // @ts-expect-error - not sure how to type this
           children: loopChildren((child.props as any).children),
         })
       }
