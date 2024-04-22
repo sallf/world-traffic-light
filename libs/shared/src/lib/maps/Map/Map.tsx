@@ -1,6 +1,6 @@
 'use client'
 
-// @ts-expect-error
+// @ts-expect-error seems to be an issue with mapbox-gl - package is installed
 import mapboxgl from '!mapbox-gl' // this is installed
 import { useState, useRef, useEffect } from 'react'
 
