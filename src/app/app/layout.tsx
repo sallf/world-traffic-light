@@ -17,7 +17,7 @@ const AppLayout = (props: Props) => {
   return (
     <div>
       <Header />
-      {children}
+      <main>{children}</main>
     </div>
   )
 }
