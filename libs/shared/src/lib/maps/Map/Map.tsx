@@ -1,6 +1,7 @@
 'use client'
 
-import mapboxgl from '!mapbox-gl'
+// @ts-ignore
+import mapboxgl from '!mapbox-gl' // this is installed
 import { useState, useRef, useEffect } from 'react'
 
 mapboxgl.accessToken =
