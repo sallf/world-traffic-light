@@ -27,7 +27,6 @@ export const ScoreModal = (props: Props) => {
   //  EFFECTS
   // ---------------------
   useEffect(() => {
-    console.log('selectedProduct :>> ', selectedProduct)
     setLocalProduct(selectedProduct)
   }, [selectedProduct])
 

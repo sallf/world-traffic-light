@@ -97,7 +97,7 @@ export const MapContainer = () => {
         ref={setModalBg}
       />
       <div
-        className={`absolute -left-4 top-1/2 -translate-x-full -translate-y-1/2 max-h-full hidden max-w-[calc(100%-2rem)]`}
+        className={`absolute -left-4 top-20 bottom-10 -translate-x-full max-h-full hidden max-w-[calc(100%-2rem)]`}
         ref={setModalContent}
       >
         <ScoreModal

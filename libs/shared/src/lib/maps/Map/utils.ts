@@ -21,7 +21,7 @@ const handleClick = async (
     .addTo(map)
 
   const scores: Scores = await fetch(
-    `/api/scores?country=${country}&product=${selectedProduct}`
+    `/api/scores?country=${country}&product=${selectedProduct.id}`
   ).then((res) => res.json())
 
   const score = scores.scores[country] || 50
