@@ -3,7 +3,7 @@ import { Children, cloneElement, isValidElement } from 'react'
 import type { FieldValues, UseFormReturn } from 'react-hook-form'
 import type { AnyObject, TestConfig } from 'yup'
 
-import { Label, Text } from './index'
+import { Label, Text, TextArea } from './index'
 
 interface Props {
   validationSchema: AnyObject
@@ -45,7 +45,7 @@ export const ChildrenLoop = (props: Props) => {
   const loopChildren = (_children: ReactNode): ReactNode =>
     Children.map(_children, (child: ReactNode) => {
       if (!isValidElement(child)) return child
-      const inputs = [Text, Date, Label]
+      const inputs = [Text, TextArea, Date, Label]
       const name = typeof child.type !== 'string' ? child.type.name : undefined
       const isInput = inputs.some((input) => input.name === name)
       // If we find an input, stop here and return

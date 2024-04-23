@@ -28,7 +28,11 @@ export const LoginForm = () => {
       .required('Username is required'),
   })
   return (
-    <RHForm validationSchema={validationSchema} onSubmit={handleSubmit}>
+    <RHForm
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+      ctaLabel="Sign In"
+    >
       <Text id="username" label="Username" placeholder="Enter username" />
     </RHForm>
   )

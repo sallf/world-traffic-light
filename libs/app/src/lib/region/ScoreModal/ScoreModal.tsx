@@ -7,6 +7,7 @@ import { ProductSelect } from './ProductSelect'
 import { useEffect, useState } from 'react'
 import { Cta } from '@world-traffic-light/shared'
 import { PostItem } from './PostItem/PostItem'
+import { NewPost } from './PostItem/NewPost'
 
 interface Props {
   selectedCountry: Country | null
@@ -75,6 +76,7 @@ export const ScoreModal = (props: Props) => {
         </Cta>
       </div>
       <div className="flex flex-col gap-2">
+        <NewPost />
         {posts.map((post, i) => (
           <PostItem
             key={post.id}
