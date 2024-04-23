@@ -56,5 +56,7 @@ export async function getScores(params: FetchScores) {
   const request = buildRequest(apiUrl, `scores`, {
     ...params,
   })
+  // request.body.next.tags = [params.country, params.product]
+  console.log('request :>> ', request)
   return await handleFetch(request)
 }

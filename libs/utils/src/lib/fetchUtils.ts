@@ -1,3 +1,5 @@
+import { revalidateTag } from 'next/cache'
+
 export interface FetchBody {
   [key: string]: string
 }
@@ -57,15 +59,21 @@ const generateRequest = (
     headers: options.headers || defaultHeaders,
     method: options.method || defaultMethod,
     mode: options.mode || defaultMode,
+    next: {},
   }
 
   if (init.method === 'GET' && body) {
     Object.keys(body).forEach((key) => {
       newUrl.searchParams.append(key, body[key])
     })
+    if (init.next) {
+      init.next.tags = Object.values(body)
+    }
   } else if (body) {
     init.method = options.method || 'POST'
-
+    Object.values(body).forEach((val) => {
+      revalidateTag(val)
+    })
     init.body = JSON.stringify(body)
   }
 
