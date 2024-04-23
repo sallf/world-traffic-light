@@ -103,6 +103,7 @@ export const MapContainer = () => {
         <ScoreModal
           selectedCountry={selectedCountry}
           selectedProduct={selectedProduct}
+          isActive={isActive}
           onClose={() => {
             setIsActive(false)
           }}

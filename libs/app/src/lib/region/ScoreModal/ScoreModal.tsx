@@ -1,6 +1,6 @@
 'use client'
 
-import { Add, Close, PlusOne } from '@mui/icons-material'
+import { Add, Close } from '@mui/icons-material'
 import { Country, Product } from '@world-traffic-light/utils'
 import { Gauge } from '../../typography'
 import { ProductSelect } from './ProductSelect'
@@ -10,6 +10,7 @@ import { Cta } from '@world-traffic-light/shared'
 interface Props {
   selectedCountry: Country | null
   selectedProduct: Product
+  isActive: boolean
   onClose: () => void
 }
 
@@ -17,12 +18,13 @@ export const ScoreModal = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { selectedCountry, selectedProduct, onClose } = props
+  const { selectedCountry, selectedProduct, isActive, onClose } = props
 
   // --------------------- ===
   //  STATE
   // ---------------------
   const [localProduct, setLocalProduct] = useState(selectedProduct)
+  const [posts, setPosts] = useState([])
 
   // --------------------- ===
   //  EFFECTS
@@ -30,6 +32,20 @@ export const ScoreModal = (props: Props) => {
   useEffect(() => {
     setLocalProduct(selectedProduct)
   }, [selectedProduct])
+
+  useEffect(() => {
+    if (!selectedCountry || !localProduct || !isActive) return
+    const getPosts = async () => {
+      await fetch(
+        `/api/posts?country=${selectedCountry.id}&product=${localProduct.id}`
+      )
+        .then((res) => res.json())
+        .then((p) => {
+          setPosts(p.posts)
+        })
+    }
+    getPosts()
+  }, [localProduct, selectedCountry, isActive])
 
   // --------------------- ===
   //  RENDER
