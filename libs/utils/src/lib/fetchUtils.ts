@@ -25,16 +25,11 @@ export const checkStatus = (response: Response) => {
   if (!response.ok) {
     logError(response)
   }
-  // return response
 }
 
 // --------------------- ===
 //  FETCH REQUEST BUILDER
 // ---------------------
-export const apis = {
-  landos: process.env.VITE_API_URL,
-}
-
 const generateRequest = (
   url: string,
   body: FetchBody,
@@ -69,7 +64,7 @@ const generateRequest = (
 }
 
 export const buildRequest = (
-  api: (typeof apis)[keyof typeof apis],
+  api: string,
   path: string,
   body = {},
   options = {}
@@ -82,5 +77,4 @@ export async function handleFetch(request: Request | string) {
   const resp = await fetch(request).catch(logError)
   checkStatus(resp)
   return parseJSON(resp)
-  // return fetch(request).then(checkStatus).then(parseJSON).catch(logError)
 }

@@ -1,9 +1,13 @@
-import { apis, buildRequest, handleFetch } from './fetchUtils'
+import { buildRequest, handleFetch } from './fetchUtils'
 import { EditPost, FetchPosts, FetchScores, Post } from './types'
+
+const apiUrl =
+  process.env.NEXT_PUBLIC_API_URL ||
+  'https://coverage-mapper-2rca5acexa-uc.a.run.app/'
 
 export async function addPost(params: Post) {
   const request = buildRequest(
-    apis.landos,
+    apiUrl,
     `posts`,
     {
       ...params,
@@ -16,13 +20,13 @@ export async function addPost(params: Post) {
 }
 
 export async function getPosts(params: FetchPosts) {
-  const request = buildRequest(apis.landos, `posts`, { ...params })
+  const request = buildRequest(apiUrl, `posts`, { ...params })
   return await handleFetch(request)
 }
 
 export async function editPost(params: EditPost) {
   const request = buildRequest(
-    apis.landos,
+    apiUrl,
     `posts`,
     {
       ...params,
@@ -36,7 +40,7 @@ export async function editPost(params: EditPost) {
 
 export async function deletePost(params: EditPost) {
   const request = buildRequest(
-    apis.landos,
+    apiUrl,
     `posts`,
     {
       ...params,
@@ -49,7 +53,7 @@ export async function deletePost(params: EditPost) {
 }
 
 export async function getScores(params: FetchScores) {
-  const request = buildRequest(apis.landos, `scores`, {
+  const request = buildRequest(apiUrl, `scores`, {
     ...params,
   })
   return await handleFetch(request)

@@ -1,7 +1,7 @@
 'use client'
 
-// @ts-expect-error seems to be an issue with mapbox-gl - package is installed
-import mapboxgl from 'mapbox-gl' // this is installed
+import { getPosts } from '@world-traffic-light/utils'
+import mapboxgl from 'mapbox-gl'
 import { useState, useEffect } from 'react'
 
 mapboxgl.accessToken =
@@ -23,13 +23,9 @@ export const Map = () => {
   // --------------------- ===
   //  STATE
   // ---------------------
-  const [lng, setLng] = useState(5)
-  const [lat, setLat] = useState(34)
-  const [zoom, setZoom] = useState(3)
-
   const [mapContainer, setMapContainer] = useState<HTMLDivElement | null>(null)
   // const [active, setActive] = useState(options[0]);
-  const [map, setMap] = useState<mapboxgl.Map | null>(null)
+  const [, setMap] = useState<mapboxgl.Map | null>(null)
 
   // --------------------- ===
   //  EFFECTS
@@ -39,45 +35,84 @@ export const Map = () => {
     const map = new mapboxgl.Map({
       container: mapContainer,
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [lng, lat],
-      zoom: zoom,
-      projection: 'mercator',
-    })
-    map.on('move', () => {
-      setLng(map.getCenter().lng.toFixed(4))
-      setLat(map.getCenter().lat.toFixed(4))
-      setZoom(map.getZoom().toFixed(2))
+      center: [5, 34],
+      zoom: 3,
+      projection: { name: 'mercator' },
     })
     map.on('load', () => {
-      map.addSource('countries', {
-        type: 'geojson',
-        // data
-      })
+      // map.addSource('countries', {
+      //   type: 'geojson',
+      //   // data
+      // })
 
-      map.setLayoutProperty('country-label', 'text-field', [
-        'format',
-        ['get', 'name_en'],
-        { 'font-scale': 1.2 },
-        '\n',
-        {},
-        ['get', 'name'],
-        {
-          'font-scale': 0.8,
-          'text-font': [
-            'literal',
-            ['DIN Offc Pro Italic', 'Arial Unicode MS Regular'],
-          ],
-        },
-      ])
+      // map.setLayoutProperty('country-label', 'text-field', [
+      //   'format',
+      //   ['get', 'name_en'],
+      //   { 'font-scale': 1.2 },
+      //   '\n',
+      //   {},
+      //   ['get', 'name'],
+      //   {
+      //     'font-scale': 0.8,
+      //     'text-font': [
+      //       'literal',
+      //       ['DIN Offc Pro Italic', 'Arial Unicode MS Regular'],
+      //     ],
+      //   },
+      // ])
+
+      // map.addLayer(
+      //   {
+      //     id: 'countries',
+      //     type: 'fill',
+      //     source: 'countries',
+      //   },
+      //   'country-label'
+      // )
 
       map.addLayer(
         {
-          id: 'countries',
+          id: 'country-boundaries',
+          source: {
+            type: 'vector',
+            url: 'mapbox://mapbox.country-boundaries-v1',
+          },
+          'source-layer': 'country_boundaries',
           type: 'fill',
-          source: 'countries',
+          paint: {
+            'fill-color': '#149d4e',
+            'fill-opacity': 0.4,
+          },
         },
         'country-label'
       )
+
+      map.on('mouseenter', 'country-boundaries', () => {
+        map.getCanvas().style.cursor = 'pointer'
+      })
+
+      // map.setFilter('country-boundaries', [
+      //   'in',
+      //   'iso_3166_1_alpha_3',
+      //   'NLD',
+      //   'ITA',
+      // ])
+
+      map.on('click', 'country-boundaries', async (e) => {
+        // const posts = await getPosts({
+        //   country: e.features[0].properties.iso_3166_1_alpha_3,
+        //   product: '001',
+        // })
+        if (!e.features?.[0]?.properties) return
+        const country = e.features[0].properties.iso_3166_1_alpha_3
+        const name = e.features[0].properties.name_en
+        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(name).addTo(map)
+
+        const posts = await fetch(
+          `/api/posts?country=${country}&product=001`
+        ).then((res) => res.json())
+        console.log('posts :>> ', posts)
+      })
 
       // map.setPaintProperty('countries', 'fill-color', {
       //   property: active.property,
