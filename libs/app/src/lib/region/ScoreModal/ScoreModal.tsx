@@ -1,10 +1,11 @@
 'use client'
 
-import { Close } from '@mui/icons-material'
+import { Add, Close, PlusOne } from '@mui/icons-material'
 import { Country, Product } from '@world-traffic-light/utils'
 import { Gauge } from '../../typography'
 import { ProductSelect } from './ProductSelect'
 import { useEffect, useState } from 'react'
+import { Cta } from '@world-traffic-light/shared'
 
 interface Props {
   selectedCountry: Country | null
@@ -45,6 +46,15 @@ export const ScoreModal = (props: Props) => {
         <div className="w-32">
           <Gauge score={50.123} />
         </div>
+      </div>
+      <div className="flex justify-between items-center mt-12">
+        <p className="text-xl mt-4">Scores</p>
+        <Cta onClick={() => console.log('View all scores')}>
+          <span className="flex gap-1 items-center">
+            <Add className="w-6 h-6" />
+            <span>Add Score</span>
+          </span>
+        </Cta>
       </div>
       <button
         onClick={onClose}
