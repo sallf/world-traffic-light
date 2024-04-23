@@ -6,7 +6,7 @@ import { Gauge } from '../../typography'
 import { ProductSelect } from './ProductSelect'
 import { useEffect, useState } from 'react'
 import { Cta } from '@world-traffic-light/shared'
-import { PostItem } from './PostItem'
+import { PostItem } from './PostItem/PostItem'
 
 interface Props {
   selectedCountry: Country | null

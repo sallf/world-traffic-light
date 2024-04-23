@@ -1,5 +1,7 @@
 import { Post } from '@world-traffic-light/utils'
 import { useState } from 'react'
+import { MoreBtn } from './MoreBtn'
+import { getCookie } from 'cookies-next'
 
 interface Props {
   post: Post
@@ -12,6 +14,8 @@ export const PostItem = (prop: Props) => {
   const { post } = prop
   const { score, comment, user } = post
 
+  const currentUser = getCookie('username')
+
   // --------------------- ===
   //  STATE
   // ---------------------
@@ -21,7 +25,7 @@ export const PostItem = (prop: Props) => {
   //  RENDER
   // ---------------------
   return (
-    <div className="bg-white border-gray-200 rounded px-6 py-3 border overflow-hidden relative grid grid-cols-6">
+    <div className="bg-white border-gray-200 rounded px-6 py-3 pr-6 border overflow-hidden relative grid grid-cols-6">
       <div className="w-2 absolute top-0 bottom-0 left-0 overflow-hidden">
         <div
           className="bg-gradient-to-r from-[#ED6A5A] via-[#E0BA48] to-[#36C98F] w-52 h-full"
@@ -43,6 +47,7 @@ export const PostItem = (prop: Props) => {
           <span className="sr-only">Toggle</span>
         </button>
       </div>
+      {currentUser === user && <MoreBtn />}
     </div>
   )
 }
