@@ -29,6 +29,7 @@ export const ScoreModal = (props: Props) => {
   const [posts, setPosts] = useState<Post[]>([])
   const [activeItemMenu, setActiveItemMenu] = useState(-1) // index, -1 means no active item
   const [isAddingPost, setIsAddingPost] = useState(false)
+  const [score, setScore] = useState(50)
 
   // --------------------- ===
   //  EFFECTS
@@ -48,7 +49,17 @@ export const ScoreModal = (props: Props) => {
           setPosts(p.posts as Post[])
         })
     }
+    const getScores = async () => {
+      await fetch(
+        `/api/scores?country=${selectedCountry.id}&product=${localProduct.id}`
+      )
+        .then((res) => res.json())
+        .then((scores) => {
+          setScore(scores.scores[selectedCountry.id] || 50)
+        })
+    }
     getPosts()
+    getScores()
   }, [localProduct, selectedCountry, isActive])
 
   // --------------------- ===
@@ -64,7 +75,7 @@ export const ScoreModal = (props: Props) => {
           <ProductSelect product={localProduct} setProduct={setLocalProduct} />
         </div>
         <div className="w-32">
-          <Gauge score={50.123} />
+          <Gauge score={score} />
         </div>
       </div>
       <div className="flex justify-between items-center mt-12">
