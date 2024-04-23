@@ -1,0 +1,10 @@
+/* overrides for mapbox-gl.css */
+
+.mapboxgl-popup-content {
+  padding: 1.5rem 2rem;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 1.5rem;
+  padding: 0.25rem;
+}

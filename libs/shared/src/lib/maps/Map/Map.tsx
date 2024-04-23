@@ -2,6 +2,7 @@
 
 import mapboxgl from 'mapbox-gl'
 import { useState, useEffect } from 'react'
+import { buildMap } from './utils'
 
 mapboxgl.accessToken =
   'pk.eyJ1Ijoic2FsbGYiLCJhIjoiY2x2YXlzZW9mMDM5YTJrbDQ2N3R3djk1eCJ9.xn1us-Rx1MhnfNbgLQ9dhQ'
@@ -32,57 +33,17 @@ export const Map = (props: Props) => {
   //  STATE
   // ---------------------
   const [mapContainer, setMapContainer] = useState<HTMLDivElement | null>(null)
-  // const [active, setActive] = useState(options[0]);
   const [, setMap] = useState<mapboxgl.Map | null>(null)
+  const [score, setScore] = useState(50)
 
   // --------------------- ===
   //  EFFECTS
   // ---------------------
   useEffect(() => {
     if (!mapContainer) return
-    const map = new mapboxgl.Map({
-      container: mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [5, 34],
-      zoom: 3,
-      projection: { name: 'mercator' },
-    })
-    map.on('load', () => {
-      map.addLayer(
-        {
-          id: 'country-boundaries',
-          source: {
-            type: 'vector',
-            url: 'mapbox://mapbox.country-boundaries-v1',
-          },
-          'source-layer': 'country_boundaries',
-          type: 'fill',
-          paint: {
-            'fill-color': '#149d4e',
-            'fill-opacity': 0.4,
-          },
-        },
-        'country-label'
-      )
+    const map = buildMap(mapContainer, selectedProduct, setScore)
+    setMap(map)
 
-      map.on('mouseenter', 'country-boundaries', () => {
-        map.getCanvas().style.cursor = 'pointer'
-      })
-
-      map.on('click', 'country-boundaries', async (e) => {
-        if (!e.features?.[0]?.properties) return
-        const country = e.features[0].properties.iso_3166_1_alpha_3
-        const name = e.features[0].properties.name_en
-        new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(name).addTo(map)
-
-        const scores = await fetch(
-          `/api/scores?country=${country}&product=${selectedProduct}`
-        ).then((res) => res.json())
-        console.log('posts :>> ', scores)
-      })
-
-      setMap(map)
-    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapContainer]) // only mapContainer
 

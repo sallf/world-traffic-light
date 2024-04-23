@@ -20,3 +20,6 @@ export const products = [
     name: 'ARR Eligibility Fast',
   },
 ]
+
+export const productById = (id: string) =>
+  products.find((product) => product.id === id)

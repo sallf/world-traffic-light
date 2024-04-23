@@ -20,3 +20,9 @@ export interface FetchScores {
   product: string
   country: string
 }
+
+export interface Scores {
+  message: string
+  scores: Record<string, number>
+  status: string
+}
