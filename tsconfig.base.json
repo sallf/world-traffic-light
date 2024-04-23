@@ -20,7 +20,8 @@
       "@world-traffic-light/hooks": ["libs/hooks/src/index.ts"],
       "@world-traffic-light/hooks/server": ["libs/hooks/src/server.ts"],
       "@world-traffic-light/shared": ["libs/shared/src/index.ts"],
-      "@world-traffic-light/shared/server": ["libs/shared/src/server.ts"]
+      "@world-traffic-light/shared/server": ["libs/shared/src/server.ts"],
+      "@world-traffic-light/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": [
