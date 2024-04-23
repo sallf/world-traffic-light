@@ -1,6 +1,7 @@
 /* overrides for mapbox-gl.css */
 
 .mapboxgl-popup-content {
+  @apply bg-slate-50;
   padding: 1.5rem 2rem;
 }
 

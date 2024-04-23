@@ -28,8 +28,7 @@ const handleClick = async (
 
 export const buildMap = (
   mapContainer: HTMLDivElement,
-  selectedProduct: string,
-  setScore: (score: number) => void
+  selectedProduct: string
 ) => {
   const map = new mapboxgl.Map({
     container: mapContainer,
@@ -61,8 +60,7 @@ export const buildMap = (
     })
 
     map.on('click', 'country-boundaries', async (e) => {
-      const score = await handleClick(e, map, selectedProduct)
-      setScore(score || 50)
+      await handleClick(e, map, selectedProduct)
     })
   })
   return map
