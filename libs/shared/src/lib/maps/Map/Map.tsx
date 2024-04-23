@@ -3,12 +3,12 @@
 import mapboxgl from 'mapbox-gl'
 import { useState, useEffect } from 'react'
 import { buildMap } from './utils'
-import { Country } from '@world-traffic-light/utils'
+import { Country, Product } from '@world-traffic-light/utils'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
 
 interface Props {
-  selectedProduct: string
+  selectedProduct: Product
   onSelectCountry: (country: Country) => void
   onToggleModal: (isActive: boolean) => void
 }

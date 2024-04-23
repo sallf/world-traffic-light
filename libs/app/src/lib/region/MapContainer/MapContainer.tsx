@@ -14,7 +14,7 @@ export const MapContainer = () => {
   // --------------------- ===
   //  STATE
   // ---------------------
-  const [selectedProduct, setSelectedProduct] = useState(products[0].id)
+  const [selectedProduct, setSelectedProduct] = useState(products[0])
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [isActive, setIsActive] = useState(false)
 
@@ -88,7 +88,7 @@ export const MapContainer = () => {
       </div>
       <div className="absolute bottom-8">
         <ProductToggle
-          selectedItem={selectedProduct}
+          selectedProduct={selectedProduct}
           onClick={setSelectedProduct}
         />
       </div>
@@ -102,6 +102,7 @@ export const MapContainer = () => {
       >
         <ScoreModal
           selectedCountry={selectedCountry}
+          selectedProduct={selectedProduct}
           onClose={() => {
             setIsActive(false)
           }}

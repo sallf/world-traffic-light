@@ -1,17 +1,17 @@
 'use client'
-import { products } from '@world-traffic-light/utils'
+import { Product, products } from '@world-traffic-light/utils'
 import { Item } from './Item'
 
 interface Props {
-  selectedItem: string
-  onClick: (id: string) => void
+  selectedProduct: Product
+  onClick: (product: Product) => void
 }
 
 export const ProductToggle = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { selectedItem, onClick } = props
+  const { selectedProduct, onClick } = props
 
   // --------------------- ===
   //  RENDER
@@ -22,9 +22,9 @@ export const ProductToggle = (props: Props) => {
         <Item
           key={product.id}
           name={product.name}
-          isSelected={selectedItem === product.id}
+          isSelected={selectedProduct === product}
           onClick={() => {
-            onClick(product.id)
+            onClick(product)
           }}
         />
       ))}

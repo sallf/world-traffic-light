@@ -1,4 +1,6 @@
-export const products = [
+export type Product = { id: string; name: string }
+
+export const products: Product[] = [
   {
     id: '001',
     name: 'Land Cover FL',
@@ -23,3 +25,6 @@ export const products = [
 
 export const productById = (id: string) =>
   products.find((product) => product.id === id)
+
+export const productByName = (name: string) =>
+  products.find((product) => product.name === name)

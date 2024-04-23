@@ -1,10 +1,14 @@
+'use client'
+
 import { Close } from '@mui/icons-material'
-import { Country } from '@world-traffic-light/utils'
+import { Country, Product } from '@world-traffic-light/utils'
 import { Gauge } from '../../typography'
 import { ProductSelect } from './ProductSelect'
+import { useEffect, useState } from 'react'
 
 interface Props {
   selectedCountry: Country | null
+  selectedProduct: Product
   onClose: () => void
 }
 
@@ -12,7 +16,20 @@ export const ScoreModal = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { selectedCountry, onClose } = props
+  const { selectedCountry, selectedProduct, onClose } = props
+
+  // --------------------- ===
+  //  STATE
+  // ---------------------
+  const [localProduct, setLocalProduct] = useState(selectedProduct)
+
+  // --------------------- ===
+  //  EFFECTS
+  // ---------------------
+  useEffect(() => {
+    console.log('selectedProduct :>> ', selectedProduct)
+    setLocalProduct(selectedProduct)
+  }, [selectedProduct])
 
   // --------------------- ===
   //  RENDER
@@ -24,7 +41,7 @@ export const ScoreModal = (props: Props) => {
       <div className="flex justify-between">
         <div>
           <p className="text-3xl">{selectedCountry?.name}</p>
-          <ProductSelect />
+          <ProductSelect product={localProduct} setProduct={setLocalProduct} />
         </div>
         <div className="w-32">
           <Gauge score={50.123} />

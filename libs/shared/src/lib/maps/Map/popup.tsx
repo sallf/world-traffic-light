@@ -1,9 +1,9 @@
-import { productById } from '@world-traffic-light/utils'
+import { Product } from '@world-traffic-light/utils'
 
 export const buildPopup = (
   name: string,
   score: number | string,
-  selectedProduct: string,
+  selectedProduct: Product,
   onToggleModal: (isActive: boolean) => void
 ) => {
   const div = document.createElement('div')
@@ -22,7 +22,7 @@ export const buildPopup = (
   const inner = `
   <div>
     <p class="text-2xl mb-0">${name}</p>
-    <p>${productById(selectedProduct)?.name} Score</p>
+    <p>${selectedProduct.name} Score</p>
     <p class="text-4xl py-2">${score}</p>
   </div>`
 

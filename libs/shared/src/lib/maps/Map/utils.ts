@@ -1,11 +1,11 @@
-import { Country, Scores } from '@world-traffic-light/utils'
+import { Country, Product, Scores } from '@world-traffic-light/utils'
 import mapboxgl from 'mapbox-gl'
 import { buildPopup } from './popup'
 
 const handleClick = async (
   e: mapboxgl.MapLayerMouseEvent,
   map: mapboxgl.Map,
-  selectedProduct: string,
+  selectedProduct: Product,
   onSelectCountry: (country: Country) => void,
   onToggleModal: (isActive: boolean) => void
 ) => {
@@ -32,7 +32,7 @@ const handleClick = async (
 
 export const buildMap = (
   mapContainer: HTMLDivElement,
-  selectedProduct: string,
+  selectedProduct: Product,
   onSelectCountry: (country: Country) => void,
   onToggleModal: (isActive: boolean) => void
 ) => {
