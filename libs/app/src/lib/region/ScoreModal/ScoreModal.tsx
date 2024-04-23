@@ -28,6 +28,7 @@ export const ScoreModal = (props: Props) => {
   const [localProduct, setLocalProduct] = useState(selectedProduct)
   const [posts, setPosts] = useState<Post[]>([])
   const [activeItemMenu, setActiveItemMenu] = useState(-1) // index, -1 means no active item
+  const [isAddingPost, setIsAddingPost] = useState(false)
 
   // --------------------- ===
   //  EFFECTS
@@ -68,15 +69,24 @@ export const ScoreModal = (props: Props) => {
       </div>
       <div className="flex justify-between items-center mt-12">
         <p className="text-xl">Scores</p>
-        <Cta onClick={() => console.log('View all scores')}>
+        <Cta
+          isSecondary={isAddingPost}
+          onClick={() => {
+            setIsAddingPost((prev) => !prev)
+          }}
+        >
           <span className="flex gap-1 items-center">
-            <Add className="w-6 h-6" />
-            <span>Add Score</span>
+            <Add
+              className={`w-6 h-6 transition-transform ${
+                isAddingPost ? 'rotate-45' : 'rotate-0'
+              }`}
+            />
+            <span>{isAddingPost ? 'Cancel' : 'Add Score'}</span>
           </span>
         </Cta>
       </div>
       <div className="flex flex-col gap-2">
-        <NewPost />
+        {isAddingPost && <NewPost />}
         {posts.map((post, i) => (
           <PostItem
             key={post.id}
