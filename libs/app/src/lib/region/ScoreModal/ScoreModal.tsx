@@ -1,11 +1,12 @@
 'use client'
 
 import { Add, Close } from '@mui/icons-material'
-import { Country, Product } from '@world-traffic-light/utils'
+import { Country, Post, Product } from '@world-traffic-light/utils'
 import { Gauge } from '../../typography'
 import { ProductSelect } from './ProductSelect'
 import { useEffect, useState } from 'react'
 import { Cta } from '@world-traffic-light/shared'
+import { PostItem } from './PostItem'
 
 interface Props {
   selectedCountry: Country | null
@@ -24,7 +25,7 @@ export const ScoreModal = (props: Props) => {
   //  STATE
   // ---------------------
   const [localProduct, setLocalProduct] = useState(selectedProduct)
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<Post[]>([])
 
   // --------------------- ===
   //  EFFECTS
@@ -41,7 +42,7 @@ export const ScoreModal = (props: Props) => {
       )
         .then((res) => res.json())
         .then((p) => {
-          setPosts(p.posts)
+          setPosts(p.posts as Post[])
         })
     }
     getPosts()
@@ -52,7 +53,7 @@ export const ScoreModal = (props: Props) => {
   // ---------------------
   return (
     <div
-      className={`bg-slate-50 relative rounded-md p-10 pl-12 h-full overflow-y-auto w-[38rem] max-w-full`}
+      className={`bg-slate-50 relative rounded-md p-10 pl-12 h-full overflow-y-auto w-[42rem] max-w-full flex flex-col gap-4`}
     >
       <div className="flex justify-between">
         <div>
@@ -64,13 +65,18 @@ export const ScoreModal = (props: Props) => {
         </div>
       </div>
       <div className="flex justify-between items-center mt-12">
-        <p className="text-xl mt-4">Scores</p>
+        <p className="text-xl">Scores</p>
         <Cta onClick={() => console.log('View all scores')}>
           <span className="flex gap-1 items-center">
             <Add className="w-6 h-6" />
             <span>Add Score</span>
           </span>
         </Cta>
+      </div>
+      <div className="flex flex-col gap-2">
+        {posts.map((post) => (
+          <PostItem key={post.id} post={post} />
+        ))}
       </div>
       <button
         onClick={onClose}
