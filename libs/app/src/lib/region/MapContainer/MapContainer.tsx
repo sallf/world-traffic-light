@@ -3,8 +3,12 @@
 import { Map } from '@world-traffic-light/shared'
 import { ProductToggle } from '../../toggles'
 import { Country, products } from '@world-traffic-light/utils'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ScoreModal } from '../ScoreModal/ScoreModal'
+
+import gsap from 'gsap'
+
+const duration = 0.3
 
 export const MapContainer = () => {
   // --------------------- ===
@@ -13,6 +17,62 @@ export const MapContainer = () => {
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [isActive, setIsActive] = useState(false)
+
+  const [modalContent, setModalContent] = useState<HTMLDivElement | null>(null)
+  const [modalBg, setModalBg] = useState<HTMLDivElement | null>(null)
+
+  // --------------------- ===
+  //  REFS
+  // ---------------------
+  const tl = useRef<gsap.core.Timeline | null>(null)
+
+  // --------------------- ===
+  //  EFFECTS
+  // ---------------------
+  useEffect(() => {
+    // Build TL
+    if (!modalContent || !modalBg) return
+    tl.current = gsap.timeline({
+      paused: true,
+      onStart: () => {
+        gsap.set(modalBg, { display: 'block' })
+        gsap.set(modalContent, { display: 'block' })
+      },
+      onReverseComplete: () => {
+        gsap.set(modalBg, { display: 'none' })
+        gsap.set(modalContent, { display: 'none' })
+      },
+    })
+
+    tl.current.to(modalBg, { autoAlpha: 0.5, duration })
+    tl.current.to(
+      modalContent,
+      {
+        translateX: '0%',
+        duration,
+      },
+      0
+    )
+  }, [modalContent, modalBg])
+
+  useEffect(() => {
+    // Handle modal visibility
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalContent && !modalContent.contains(e.target as Node)) {
+        setIsActive(false)
+      }
+    }
+    if (isActive) {
+      tl.current?.play()
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      tl.current?.reverse()
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive]) // only isActive
 
   // --------------------- ===
   //  RENDER
@@ -33,11 +93,19 @@ export const MapContainer = () => {
         />
       </div>
       <div
-        className={`${
-          isActive ? '' : '-translate-x-full'
-        } transition-transform absolute -left-4 top-1/2 -translate-y-1/2 max-h-full`}
+        className="absolute inset-0 bg-black hidden opacity-0"
+        ref={setModalBg}
+      />
+      <div
+        className={`absolute -left-4 top-1/2 -translate-x-full -translate-y-1/2 max-h-full hidden max-w-[calc(100%-2rem)]`}
+        ref={setModalContent}
       >
-        <ScoreModal selectedCountry={selectedCountry} />
+        <ScoreModal
+          selectedCountry={selectedCountry}
+          onClose={() => {
+            setIsActive(false)
+          }}
+        />
       </div>
     </div>
   )
