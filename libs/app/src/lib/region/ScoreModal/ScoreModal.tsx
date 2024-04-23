@@ -26,6 +26,7 @@ export const ScoreModal = (props: Props) => {
   // ---------------------
   const [localProduct, setLocalProduct] = useState(selectedProduct)
   const [posts, setPosts] = useState<Post[]>([])
+  const [activeItemMenu, setActiveItemMenu] = useState(-1) // index, -1 means no active item
 
   // --------------------- ===
   //  EFFECTS
@@ -74,8 +75,19 @@ export const ScoreModal = (props: Props) => {
         </Cta>
       </div>
       <div className="flex flex-col gap-2">
-        {posts.map((post) => (
-          <PostItem key={post.id} post={post} />
+        {posts.map((post, i) => (
+          <PostItem
+            key={post.id}
+            post={post}
+            isMenuActive={i === activeItemMenu}
+            onMenuClick={() => {
+              if (i === activeItemMenu) {
+                setActiveItemMenu(-1)
+              } else {
+                setActiveItemMenu(i)
+              }
+            }}
+          />
         ))}
       </div>
       <button
