@@ -75,10 +75,10 @@ export const Map = (props: Props) => {
         const name = e.features[0].properties.name_en
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(name).addTo(map)
 
-        const posts = await fetch(
-          `/api/posts?country=${country}&product=${selectedProduct}`
+        const scores = await fetch(
+          `/api/scores?country=${country}&product=${selectedProduct}`
         ).then((res) => res.json())
-        console.log('posts :>> ', posts)
+        console.log('posts :>> ', scores)
       })
 
       setMap(map)

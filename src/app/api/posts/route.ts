@@ -1,12 +1,4 @@
-import { getPosts } from '@world-traffic-light/utils'
-import { NextResponse } from 'next/server'
-
-const getSearchParams = (request: Request) => {
-  const { searchParams } = new URL(request.url)
-  const country = searchParams.get('country')
-  const product = searchParams.get('product')
-  return { country, product }
-}
+import { getPosts, getSearchParams } from '@world-traffic-light/utils'
 
 export async function GET(request: Request) {
   // const formData = await request.formData()

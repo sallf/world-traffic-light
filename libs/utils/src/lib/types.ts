@@ -18,4 +18,5 @@ export interface EditPost {
 
 export interface FetchScores {
   product: string
+  country: string
 }

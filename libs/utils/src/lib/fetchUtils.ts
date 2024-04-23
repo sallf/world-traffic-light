@@ -9,6 +9,15 @@ export interface FetchOptions {
   mode?: RequestMode
 }
 
+export const getSearchParams = (request: Request) => {
+  const { searchParams } = new URL(request.url)
+  const params: { [key: string]: string } = {}
+  for (const p of searchParams) {
+    params[p[0]] = p[1]
+  }
+  return params
+}
+
 export const parseJSON = (response: Response) => {
   if (!response.ok) {
     return null
