@@ -14,8 +14,6 @@ export const MapContainer = () => {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [isActive, setIsActive] = useState(false)
 
-  console.log('isActive :>> ', isActive)
-
   // --------------------- ===
   //  RENDER
   // ---------------------
@@ -34,8 +32,12 @@ export const MapContainer = () => {
           onClick={setSelectedProduct}
         />
       </div>
-      <div className="absolute -left-4 top-1/2 -translate-y-1/2 max-h-full">
-        <ScoreModal isActive={isActive} />
+      <div
+        className={`${
+          isActive ? '' : '-translate-x-full'
+        } transition-transform absolute -left-4 top-1/2 -translate-y-1/2 max-h-full`}
+      >
+        <ScoreModal selectedCountry={selectedCountry} />
       </div>
     </div>
   )
