@@ -25,7 +25,10 @@ export const PostItem = (prop: Props) => {
       <div className="w-2 absolute top-0 bottom-0 left-0 overflow-hidden">
         <div
           className="bg-gradient-to-r from-[#ED6A5A] via-[#E0BA48] to-[#36C98F] w-52 h-full"
-          style={{ left: `${score}%` }}
+          style={{
+            transform: `translateX(-${score}%)`,
+            marginLeft: `${0.5 * (score / 100)}rem`,
+          }}
         />
       </div>
       <div className={`${isExpanded ? '' : 'truncate'}`}>{user}</div>
