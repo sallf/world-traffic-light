@@ -24,10 +24,10 @@ export async function getPosts(params: FetchPosts) {
   return await handleFetch(request)
 }
 
-export async function editPost(params: EditPost) {
+export async function editPost(id: string, params: Partial<Post>) {
   const request = buildRequest(
     apiUrl,
-    `posts`,
+    `posts/${id}`,
     {
       ...params,
     },
@@ -38,13 +38,11 @@ export async function editPost(params: EditPost) {
   return await handleFetch(request)
 }
 
-export async function deletePost(params: EditPost) {
+export async function deletePost(id: string) {
   const request = buildRequest(
     apiUrl,
-    `posts`,
-    {
-      ...params,
-    },
+    `posts/${id}`,
+    {},
     {
       method: 'DELETE',
     }

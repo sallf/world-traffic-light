@@ -1,4 +1,15 @@
-export const Menu = () => {
+import { Post } from '@world-traffic-light/utils'
+
+interface Props {
+  post: Post
+}
+
+export const Menu = (props: Props) => {
+  // --------------------- ===
+  //  PROPS
+  // ---------------------
+  const { post } = props
+
   // --------------------- ===
   //  RENDER
   // ---------------------
@@ -9,7 +20,9 @@ export const Menu = () => {
     },
     {
       label: 'Delete',
-      onClick: () => console.log('Delete'),
+      onClick: async () => {
+        await fetch(`/api/posts/${post.id}`, { method: 'DELETE' })
+      },
     },
   ]
   return (

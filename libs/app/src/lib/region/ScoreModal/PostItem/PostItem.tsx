@@ -55,7 +55,7 @@ export const PostItem = (prop: Props) => {
           <MoreBtn onClick={onMenuClick} isActive={isMenuActive} />
         )}
       </div>
-      {isMenuActive && <Menu />}
+      {isMenuActive && <Menu post={post} />}
     </div>
   )
 }
