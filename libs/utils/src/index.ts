@@ -2,4 +2,5 @@
 
 export * from './lib/fetchUtils'
 export * from './lib/landosApi'
+export * from './lib/products'
 export * from './lib/types'
