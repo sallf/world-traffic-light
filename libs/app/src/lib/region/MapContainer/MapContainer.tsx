@@ -11,6 +11,8 @@ export const MapContainer = () => {
   //  STATE
   // ---------------------
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
+  const [selectedCountry, setSelectedCountry] = useState<string>('')
+  const [isActive, setIsActive] = useState(false)
 
   // --------------------- ===
   //  RENDER
@@ -27,7 +29,7 @@ export const MapContainer = () => {
         />
       </div>
       <div className="absolute -left-4 top-1/2 -translate-y-1/2 max-h-full">
-        <ScoreModal />
+        <ScoreModal isActive={isActive} />
       </div>
     </div>
   )

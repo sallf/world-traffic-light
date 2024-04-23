@@ -26,3 +26,8 @@ export interface Scores {
   scores: Record<string, number>
   status: string
 }
+
+export interface Country {
+  id: string
+  name: string
+}

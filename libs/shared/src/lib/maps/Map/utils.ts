@@ -1,15 +1,18 @@
-import { Scores } from '@world-traffic-light/utils'
+import { Country, Scores } from '@world-traffic-light/utils'
 import mapboxgl from 'mapbox-gl'
 import { buildPopup } from './popup'
 
 const handleClick = async (
   e: mapboxgl.MapLayerMouseEvent,
   map: mapboxgl.Map,
-  selectedProduct: string
+  selectedProduct: string,
+  setSelectedCountry: (country: Country) => void
 ) => {
   if (!e.features?.[0]?.properties) return
-  const country = e.features[0].properties.iso_3166_1_alpha_3
-  const name = e.features[0].properties.name_en
+  const country = e.features[0].properties.iso_3166_1_alpha_3 as string
+  const name = e.features[0].properties.name_en as string
+
+  setSelectedCountry({ id: country, name })
 
   const popup = new mapboxgl.Popup()
     .setLngLat(e.lngLat)
@@ -28,7 +31,8 @@ const handleClick = async (
 
 export const buildMap = (
   mapContainer: HTMLDivElement,
-  selectedProduct: string
+  selectedProduct: string,
+  setSelectedCountry: (country: Country) => void
 ) => {
   const map = new mapboxgl.Map({
     container: mapContainer,
@@ -59,8 +63,12 @@ export const buildMap = (
       map.getCanvas().style.cursor = 'pointer'
     })
 
+    map.on('mouseleave', 'country-boundaries', () => {
+      map.getCanvas().style.cursor = ''
+    })
+
     map.on('click', 'country-boundaries', async (e) => {
-      await handleClick(e, map, selectedProduct)
+      await handleClick(e, map, selectedProduct, setSelectedCountry)
     })
   })
   return map

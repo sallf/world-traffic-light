@@ -3,18 +3,20 @@
 import mapboxgl from 'mapbox-gl'
 import { useState, useEffect } from 'react'
 import { buildMap } from './utils'
+import { Country } from '@world-traffic-light/utils'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
 
 interface Props {
   selectedProduct: string
+  setSelectedCountry: (country: Country) => void
 }
 
 export const Map = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { selectedProduct } = props
+  const { selectedProduct, setSelectedCountry } = props
 
   // --------------------- ===
   //  STATE
@@ -27,9 +29,8 @@ export const Map = (props: Props) => {
   // ---------------------
   useEffect(() => {
     if (!mapContainer) return
-    const map = buildMap(mapContainer, selectedProduct)
+    const map = buildMap(mapContainer, selectedProduct, setSelectedCountry)
     setMap(map)
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapContainer]) // only mapContainer
 
