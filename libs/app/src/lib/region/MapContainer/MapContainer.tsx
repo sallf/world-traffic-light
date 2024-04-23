@@ -2,7 +2,7 @@
 
 import { Map } from '@world-traffic-light/shared'
 import { ProductToggle } from '../../toggles'
-import { products } from '@world-traffic-light/utils'
+import { Country, products } from '@world-traffic-light/utils'
 import { useState } from 'react'
 import { ScoreModal } from '../ScoreModal/ScoreModal'
 
@@ -11,8 +11,10 @@ export const MapContainer = () => {
   //  STATE
   // ---------------------
   const [selectedProduct, setSelectedProduct] = useState(products[0].id)
-  const [selectedCountry, setSelectedCountry] = useState<string>('')
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [isActive, setIsActive] = useState(false)
+
+  console.log('isActive :>> ', isActive)
 
   // --------------------- ===
   //  RENDER
@@ -20,7 +22,11 @@ export const MapContainer = () => {
   return (
     <div className="flex justify-center">
       <div className="absolute inset-0">
-        <Map selectedProduct={selectedProduct} />
+        <Map
+          selectedProduct={selectedProduct}
+          onSelectCountry={setSelectedCountry}
+          onToggleModal={setIsActive}
+        />
       </div>
       <div className="absolute bottom-8">
         <ProductToggle

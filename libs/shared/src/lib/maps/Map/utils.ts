@@ -6,17 +6,18 @@ const handleClick = async (
   e: mapboxgl.MapLayerMouseEvent,
   map: mapboxgl.Map,
   selectedProduct: string,
-  setSelectedCountry: (country: Country) => void
+  onSelectCountry: (country: Country) => void,
+  onToggleModal: (isActive: boolean) => void
 ) => {
   if (!e.features?.[0]?.properties) return
   const country = e.features[0].properties.iso_3166_1_alpha_3 as string
   const name = e.features[0].properties.name_en as string
 
-  setSelectedCountry({ id: country, name })
+  onSelectCountry({ id: country, name })
 
   const popup = new mapboxgl.Popup()
     .setLngLat(e.lngLat)
-    .setHTML(buildPopup(name, '...', selectedProduct))
+    .setDOMContent(buildPopup(name, '...', selectedProduct, onToggleModal))
     .addTo(map)
 
   const scores: Scores = await fetch(
@@ -25,14 +26,15 @@ const handleClick = async (
 
   const score = scores.scores[country] || 50
 
-  popup.setHTML(buildPopup(name, score, selectedProduct))
+  popup.setDOMContent(buildPopup(name, score, selectedProduct, onToggleModal))
   return scores.scores[country]
 }
 
 export const buildMap = (
   mapContainer: HTMLDivElement,
   selectedProduct: string,
-  setSelectedCountry: (country: Country) => void
+  onSelectCountry: (country: Country) => void,
+  onToggleModal: (isActive: boolean) => void
 ) => {
   const map = new mapboxgl.Map({
     container: mapContainer,
@@ -68,7 +70,7 @@ export const buildMap = (
     })
 
     map.on('click', 'country-boundaries', async (e) => {
-      await handleClick(e, map, selectedProduct, setSelectedCountry)
+      await handleClick(e, map, selectedProduct, onSelectCountry, onToggleModal)
     })
   })
   return map
