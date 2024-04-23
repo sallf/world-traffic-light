@@ -1,6 +1,5 @@
 'use client'
 
-import { getPosts } from '@world-traffic-light/utils'
 import mapboxgl from 'mapbox-gl'
 import { useState, useEffect } from 'react'
 
@@ -19,7 +18,16 @@ const options = [
   },
 ]
 
-export const Map = () => {
+interface Props {
+  selectedProduct: string
+}
+
+export const Map = (props: Props) => {
+  // --------------------- ===
+  //  PROPS
+  // ---------------------
+  const { selectedProduct } = props
+
   // --------------------- ===
   //  STATE
   // ---------------------
@@ -40,36 +48,6 @@ export const Map = () => {
       projection: { name: 'mercator' },
     })
     map.on('load', () => {
-      // map.addSource('countries', {
-      //   type: 'geojson',
-      //   // data
-      // })
-
-      // map.setLayoutProperty('country-label', 'text-field', [
-      //   'format',
-      //   ['get', 'name_en'],
-      //   { 'font-scale': 1.2 },
-      //   '\n',
-      //   {},
-      //   ['get', 'name'],
-      //   {
-      //     'font-scale': 0.8,
-      //     'text-font': [
-      //       'literal',
-      //       ['DIN Offc Pro Italic', 'Arial Unicode MS Regular'],
-      //     ],
-      //   },
-      // ])
-
-      // map.addLayer(
-      //   {
-      //     id: 'countries',
-      //     type: 'fill',
-      //     source: 'countries',
-      //   },
-      //   'country-label'
-      // )
-
       map.addLayer(
         {
           id: 'country-boundaries',
@@ -91,33 +69,17 @@ export const Map = () => {
         map.getCanvas().style.cursor = 'pointer'
       })
 
-      // map.setFilter('country-boundaries', [
-      //   'in',
-      //   'iso_3166_1_alpha_3',
-      //   'NLD',
-      //   'ITA',
-      // ])
-
       map.on('click', 'country-boundaries', async (e) => {
-        // const posts = await getPosts({
-        //   country: e.features[0].properties.iso_3166_1_alpha_3,
-        //   product: '001',
-        // })
         if (!e.features?.[0]?.properties) return
         const country = e.features[0].properties.iso_3166_1_alpha_3
         const name = e.features[0].properties.name_en
         new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(name).addTo(map)
 
         const posts = await fetch(
-          `/api/posts?country=${country}&product=001`
+          `/api/posts?country=${country}&product=${selectedProduct}`
         ).then((res) => res.json())
         console.log('posts :>> ', posts)
       })
-
-      // map.setPaintProperty('countries', 'fill-color', {
-      //   property: active.property,
-      //   stops: active.stops
-      // });
 
       setMap(map)
     })
