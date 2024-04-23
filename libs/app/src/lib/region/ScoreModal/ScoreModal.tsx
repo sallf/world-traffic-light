@@ -97,7 +97,9 @@ export const ScoreModal = (props: Props) => {
         </Cta>
       </div>
       <div className="flex flex-col gap-2">
-        {isAddingPost && <NewPost />}
+        {isAddingPost && selectedCountry && (
+          <NewPost product={localProduct} country={selectedCountry} />
+        )}
         {posts.map((post, i) => (
           <PostItem
             key={post.id}
