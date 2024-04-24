@@ -3,7 +3,8 @@
 import mapboxgl from 'mapbox-gl'
 import { useState, useEffect } from 'react'
 import { buildMap } from './utils'
-import { Country, Product } from '@world-traffic-light/utils'
+import { Country, Product, Scores } from '@world-traffic-light/utils'
+import { useMountEffect } from '@world-traffic-light/hooks'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
 
@@ -24,6 +25,7 @@ export const Map = (props: Props) => {
   // ---------------------
   const [mapContainer, setMapContainer] = useState<HTMLDivElement | null>(null)
   const [, setMap] = useState<mapboxgl.Map | null>(null)
+  const [scores, setScores] = useState<Scores['scores']>({})
 
   // --------------------- ===
   //  EFFECTS
@@ -38,7 +40,18 @@ export const Map = (props: Props) => {
     )
     setMap(map)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapContainer, selectedProduct]) // only mapContainer and selectedProduct
+  }, [mapContainer, selectedProduct, scores]) // only mapContainer, selectedProduct, and scores
+
+  useMountEffect(() => {
+    const getScores = async () => {
+      await fetch(`/api/scores?product=${selectedProduct.id}`)
+        .then((res) => res.json())
+        .then((scores: Scores) => {
+          setScores(scores.scores)
+        })
+    }
+    getScores()
+  })
 
   // --------------------- ===
   //  RENDER

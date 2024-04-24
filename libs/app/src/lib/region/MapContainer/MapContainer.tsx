@@ -84,6 +84,7 @@ export const MapContainer = () => {
     <div className="flex justify-center">
       <div className="absolute inset-0">
         <Map
+          key={key} // cheap reset
           selectedProduct={selectedProduct}
           onSelectCountry={setSelectedCountry}
           onToggleModal={setIsActive}
