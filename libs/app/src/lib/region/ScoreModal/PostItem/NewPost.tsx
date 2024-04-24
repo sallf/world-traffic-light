@@ -4,17 +4,24 @@ import { AnyObject, number, object, string } from 'yup'
 import { v4 as uuidv4 } from 'uuid'
 import { Country, Product } from '@world-traffic-light/utils'
 import { FieldValues } from 'react-hook-form'
+import { useState } from 'react'
 
 interface Props {
   product: Product
   country: Country
+  onComplete: () => void
 }
 
 export const NewPost = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { product, country } = props
+  const { product, country, onComplete } = props
+
+  // --------------------- ===
+  //  STATE
+  // ---------------------
+  const [isLoading, setIsLoading] = useState(false)
 
   // --------------------- ===
   //  HANDLERS
@@ -23,7 +30,8 @@ export const NewPost = (props: Props) => {
     const user = getCookie('username')
     const id = uuidv4()
     const { comment, score } = values
-    await fetch('/api/posts', {
+    setIsLoading(true)
+    const resp = await fetch('/api/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,6 +45,8 @@ export const NewPost = (props: Props) => {
         user,
       }),
     })
+    setIsLoading(false)
+    onComplete()
   }
 
   // --------------------- ===
@@ -50,6 +60,7 @@ export const NewPost = (props: Props) => {
     <RHForm
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      isLoading={isLoading}
       className="bg-white border-gray-200 rounded px-6 py-3 pr-6 border overflow-hidden relative flex flex-wrap"
     >
       <Text id="score" label="Score" placeholder="Enter score" type="number" />

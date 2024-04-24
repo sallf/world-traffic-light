@@ -98,7 +98,13 @@ export const ScoreModal = (props: Props) => {
       </div>
       <div className="flex flex-col gap-2">
         {isAddingPost && selectedCountry && (
-          <NewPost product={localProduct} country={selectedCountry} />
+          <NewPost
+            product={localProduct}
+            country={selectedCountry}
+            onComplete={() => {
+              setIsAddingPost(false)
+            }}
+          />
         )}
         {posts.map((post, i) => (
           <PostItem
