@@ -3,6 +3,7 @@
 .mapboxgl-popup-content {
   @apply bg-slate-50;
   padding: 1.5rem 2rem;
+  min-width: 12rem;
 }
 
 .mapboxgl-popup-close-button {

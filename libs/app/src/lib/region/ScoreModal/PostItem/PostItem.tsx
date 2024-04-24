@@ -10,13 +10,15 @@ interface Props {
   isEditing: boolean
   onMoreClick: () => void
   onEditClick: () => void
+  onReset: () => void
 }
 
 export const PostItem = (prop: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { post, isMenuActive, isEditing, onMoreClick, onEditClick } = prop
+  const { post, isMenuActive, isEditing, onMoreClick, onEditClick, onReset } =
+    prop
   const { score, comment, user } = post
 
   const currentUser = getCookie('username')
@@ -74,7 +76,9 @@ export const PostItem = (prop: Props) => {
           <MoreBtn onClick={onMoreClick} isActive={isMenuActive} />
         )}
       </div>
-      {isMenuActive && <Menu post={post} onEditClick={onEditClick} />}
+      {isMenuActive && (
+        <Menu post={post} onEditClick={onEditClick} onReset={onReset} />
+      )}
     </div>
   )
 }

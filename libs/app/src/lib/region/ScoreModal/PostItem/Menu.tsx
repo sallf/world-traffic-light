@@ -3,13 +3,14 @@ import { Post } from '@world-traffic-light/utils'
 interface Props {
   post: Post
   onEditClick: () => void
+  onReset: () => void
 }
 
 export const Menu = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { post, onEditClick } = props
+  const { post, onEditClick, onReset } = props
 
   // --------------------- ===
   //  RENDER
@@ -23,6 +24,7 @@ export const Menu = (props: Props) => {
       label: 'Delete',
       onClick: async () => {
         await fetch(`/api/posts/${post.id}`, { method: 'DELETE' })
+        onReset()
       },
     },
   ]
