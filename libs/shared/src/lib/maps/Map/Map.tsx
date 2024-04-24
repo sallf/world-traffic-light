@@ -36,7 +36,8 @@ export const Map = (props: Props) => {
       mapContainer,
       selectedProduct,
       onSelectCountry,
-      onToggleModal
+      onToggleModal,
+      scores
     )
     setMap(map)
     // eslint-disable-next-line react-hooks/exhaustive-deps
