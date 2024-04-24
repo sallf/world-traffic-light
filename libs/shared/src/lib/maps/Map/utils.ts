@@ -17,7 +17,7 @@ const handleClick = async (
 
   const popup = new mapboxgl.Popup()
     .setLngLat(e.lngLat)
-    .setDOMContent(buildPopup(name, '...', selectedProduct, onToggleModal))
+    .setDOMContent(buildPopup(name, '...', selectedProduct, () => null))
     .addTo(map)
 
   const scores: Scores = await fetch(
@@ -26,7 +26,12 @@ const handleClick = async (
 
   const score = scores.scores[country] || 50
 
-  popup.setDOMContent(buildPopup(name, score, selectedProduct, onToggleModal))
+  popup.setDOMContent(
+    buildPopup(name, score, selectedProduct, (isActive: boolean) => {
+      onToggleModal(isActive)
+      popup.remove()
+    })
+  )
   return scores.scores[country]
 }
 

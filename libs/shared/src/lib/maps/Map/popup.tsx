@@ -4,7 +4,7 @@ export const buildPopup = (
   name: string,
   score: number | string,
   selectedProduct: Product,
-  onToggleModal: (isActive: boolean) => void
+  onClick: (isActive: boolean) => void
 ) => {
   const div = document.createElement('div')
   div.className = 'text-center'
@@ -16,7 +16,7 @@ export const buildPopup = (
   button.innerText = 'See Details'
   button.addEventListener('click', (e) => {
     e.preventDefault()
-    onToggleModal(true)
+    onClick(true)
   })
 
   const inner = `
