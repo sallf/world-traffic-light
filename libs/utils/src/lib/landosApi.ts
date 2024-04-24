@@ -1,9 +1,7 @@
 import { buildRequest, handleFetch } from './fetchUtils'
-import { EditPost, FetchPosts, FetchScores, Post } from './types'
+import { FetchPosts, FetchScores, Post } from './types'
 
-const apiUrl =
-  process.env.NEXT_PUBLIC_API_URL ||
-  'https://coverage-mapper-2rca5acexa-uc.a.run.app/'
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || ''
 
 export async function addPost(params: Post) {
   const request = buildRequest(

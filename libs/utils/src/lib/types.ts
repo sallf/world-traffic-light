@@ -12,10 +12,6 @@ export interface FetchPosts {
   country: string
 }
 
-export interface EditPost {
-  id: string
-}
-
 export interface FetchScores {
   product: string
   country: string
