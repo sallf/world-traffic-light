@@ -1,14 +1,10 @@
-import { Map } from '@world-traffic-light/shared'
+import { MapContainer } from '@world-traffic-light/app'
 
 const AppPage = () => {
   // --------------------- ===
   //  RENDER
   // ---------------------
-  return (
-    <div>
-      <Map />
-    </div>
-  )
+  return <MapContainer />
 }
 
 export default AppPage

@@ -2,3 +2,5 @@
 
 export * from './lib/login'
 export * from './lib/region'
+export * from './lib/toggles'
+export * from './lib/typography'

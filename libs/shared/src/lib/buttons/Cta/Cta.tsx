@@ -1,10 +1,14 @@
 import { ButtonHTMLAttributes } from 'react'
 
-export const Cta = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isSecondary?: boolean
+}
+
+export const Cta = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { children, ...rest } = props
+  const { children, isSecondary = false, ...rest } = props
 
   // --------------------- ===
   //  RENDER
@@ -12,7 +16,11 @@ export const Cta = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       {...rest}
-      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      className={`${
+        isSecondary
+          ? 'bg-gray-600 hover:bg-gray-700'
+          : 'bg-green-600 hover:bg-green-700'
+      } text-white font-bold py-2 px-4 rounded`}
     >
       {children}
     </button>

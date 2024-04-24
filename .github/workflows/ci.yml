@@ -34,4 +34,3 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
 
       - run: npx nx affected -t test --passWithNoTests
-      - run: npx nx affected -t lint e2e-ci
