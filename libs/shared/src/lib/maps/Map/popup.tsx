@@ -23,7 +23,9 @@ export const buildPopup = (
   <div>
     <p class="text-2xl mb-0">${name}</p>
     <p>${selectedProduct.name} Score</p>
-    <p class="text-4xl py-2">${score}</p>
+    <p class="text-4xl py-2">${
+      typeof score === 'number' ? score.toFixed(2) : score
+    }</p>
   </div>`
 
   div.innerHTML = inner

@@ -38,7 +38,7 @@ export const Map = (props: Props) => {
     )
     setMap(map)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapContainer]) // only mapContainer
+  }, [mapContainer, selectedProduct]) // only mapContainer and selectedProduct
 
   // --------------------- ===
   //  RENDER
