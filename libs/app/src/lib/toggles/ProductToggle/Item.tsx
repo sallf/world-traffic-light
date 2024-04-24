@@ -16,7 +16,9 @@ export const Item = (props: Props) => {
   return (
     <label
       onClick={onClick}
-      className={`${isSelected ? 'text-red-800' : 'text-black'} cursor-pointer`}
+      className={`${
+        isSelected ? 'font-semibold  text-slate-700' : 'text-black'
+      } cursor-pointer font-lg`}
     >
       <input
         className="sr-only"
