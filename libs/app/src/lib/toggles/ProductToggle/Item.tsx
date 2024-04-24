@@ -21,7 +21,7 @@ export const Item = (props: Props) => {
       <input
         className="sr-only"
         type="radio"
-        // onClick={onClick}
+        onChange={onClick}
         checked={isSelected}
       />
       <span>{name}</span>
