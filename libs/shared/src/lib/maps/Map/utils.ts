@@ -1,6 +1,24 @@
 import { Country, Product, Scores } from '@world-traffic-light/utils'
-import mapboxgl from 'mapbox-gl'
+import mapboxgl, { Expression } from 'mapbox-gl'
 import { buildPopup } from './popup'
+
+import Color from 'color'
+
+const red = '#ED6A5A'
+const yellow = '#E0BA48'
+const green = '#36C98F'
+
+const getColor = (score: number) => {
+  if (score < 50) {
+    const color = Color(red)
+    const color2 = Color(yellow)
+    return color.mix(color2, score / 50).string()
+  } else {
+    const color = Color(yellow)
+    const color2 = Color(green)
+    return color.mix(color2, (score - 50) / 50).string()
+  }
+}
 
 const handleClick = async (
   e: mapboxgl.MapLayerMouseEvent,
@@ -59,23 +77,16 @@ export const buildMap = (
     })
 
     // Use the ISO 3166-1 alpha 3 code as the lookup key for the country shape
-    const matchExpression = ['match', ['get', 'iso_3166_1_alpha_3']]
-
-    const colorStops = [
-      [0, 'rgba(255, 0, 0, 1)'], // Red for score 0
-      [50, 'rgba(255, 255, 0, 1)'], // Yellow for score 50
-      [100, 'rgba(0, 255, 0, 1)'], // Green for score 100
-    ]
+    const matchExpression: Expression = ['match', ['get', 'iso_3166_1_alpha_3']]
 
     // // Calculate color values for each country
     Object.entries(scores).forEach(([code, score]) => {
-      const color = 'rgba(0, 255, 0, 1)'
-      console.log('color :>> ', code, score, color)
+      const color = getColor(score)
       matchExpression.push(code, color)
     })
 
     // default color for countries with no data
-    matchExpression.push('rgba(0, 0, 0, 0.1)')
+    matchExpression.push(yellow)
 
     map.addLayer(
       {
@@ -89,7 +100,7 @@ export const buildMap = (
         paint: {
           'fill-color': matchExpression,
           // 'fill-color': '#149d4e',
-          // 'fill-opacity': 0.4,
+          'fill-opacity': 0.65,
         },
       },
       'country-label'
