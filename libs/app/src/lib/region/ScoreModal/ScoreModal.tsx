@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Cta } from '@world-traffic-light/shared'
 import { PostItem } from './PostItem/PostItem'
 import { NewPost } from './PostItem/NewPost'
+import { EditPost } from './PostItem/EditPost'
 
 interface Props {
   selectedCountry: Country | null
@@ -28,8 +29,9 @@ export const ScoreModal = (props: Props) => {
   const [localProduct, setLocalProduct] = useState(selectedProduct)
   const [posts, setPosts] = useState<Post[]>([])
   const [activeItemMenu, setActiveItemMenu] = useState(-1) // index, -1 means no active item
-  const [isAddingPost, setIsAddingPost] = useState(false)
   const [score, setScore] = useState(50)
+  const [isAddingPost, setIsAddingPost] = useState(false)
+  const [editPost, setEditPost] = useState<Post | null>(null)
 
   // --------------------- ===
   //  EFFECTS
@@ -63,8 +65,17 @@ export const ScoreModal = (props: Props) => {
   }, [localProduct, selectedCountry, isActive])
 
   // --------------------- ===
+  //  HANDLERS
+  // ---------------------
+  const handleFormReset = () => {
+    setEditPost(null)
+    setIsAddingPost(false)
+  }
+
+  // --------------------- ===
   //  RENDER
   // ---------------------
+  const isFormActive = isAddingPost || !!editPost
   return (
     <div
       className={`bg-slate-50 relative rounded-md p-10 pl-12 h-full overflow-y-auto w-[42rem] max-w-full flex flex-col gap-4`}
@@ -81,18 +92,22 @@ export const ScoreModal = (props: Props) => {
       <div className="flex justify-between items-center mt-12">
         <p className="text-xl">Scores</p>
         <Cta
-          isSecondary={isAddingPost}
+          isSecondary={isFormActive}
           onClick={() => {
-            setIsAddingPost((prev) => !prev)
+            if (isFormActive) {
+              handleFormReset()
+            } else {
+              setIsAddingPost((prev) => !prev)
+            }
           }}
         >
           <span className="flex gap-1 items-center">
             <Add
               className={`w-6 h-6 transition-transform ${
-                isAddingPost ? 'rotate-45' : 'rotate-0'
+                isFormActive ? 'rotate-45' : 'rotate-0'
               }`}
             />
-            <span>{isAddingPost ? 'Cancel' : 'Add Score'}</span>
+            <span>{isFormActive ? 'Cancel' : 'Add Score'}</span>
           </span>
         </Cta>
       </div>
@@ -101,22 +116,25 @@ export const ScoreModal = (props: Props) => {
           <NewPost
             product={localProduct}
             country={selectedCountry}
-            onComplete={() => {
-              setIsAddingPost(false)
-            }}
+            onComplete={handleFormReset}
           />
         )}
+        {editPost && <EditPost post={editPost} onComplete={handleFormReset} />}
         {posts.map((post, i) => (
           <PostItem
             key={post.id}
             post={post}
             isMenuActive={i === activeItemMenu}
-            onMenuClick={() => {
+            isEditing={editPost === post}
+            onMoreClick={() => {
               if (i === activeItemMenu) {
                 setActiveItemMenu(-1)
               } else {
                 setActiveItemMenu(i)
               }
+            }}
+            onEditClick={() => {
+              setEditPost(post)
             }}
           />
         ))}

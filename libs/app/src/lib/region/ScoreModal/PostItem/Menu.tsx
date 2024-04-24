@@ -2,13 +2,14 @@ import { Post } from '@world-traffic-light/utils'
 
 interface Props {
   post: Post
+  onEditClick: () => void
 }
 
 export const Menu = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { post } = props
+  const { post, onEditClick } = props
 
   // --------------------- ===
   //  RENDER
@@ -16,7 +17,7 @@ export const Menu = (props: Props) => {
   const btns = [
     {
       label: 'Edit',
-      onClick: () => console.log('Edit'),
+      onClick: onEditClick,
     },
     {
       label: 'Delete',
@@ -31,7 +32,7 @@ export const Menu = (props: Props) => {
         <button
           key={i}
           onClick={btn.onClick}
-          className="py-2 px-4 hover:bg-gray-100 rounded"
+          className="py-2 px-6 hover:bg-gray-100 rounded"
         >
           {btn.label}
         </button>

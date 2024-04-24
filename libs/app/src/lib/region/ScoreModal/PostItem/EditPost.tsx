@@ -1,21 +1,20 @@
 import { getCookie } from 'cookies-next'
 import { v4 as uuidv4 } from 'uuid'
-import { Country, Product } from '@world-traffic-light/utils'
+import { Country, Post, Product } from '@world-traffic-light/utils'
 import { FieldValues } from 'react-hook-form'
 import { useState } from 'react'
 import { PostForm } from './PostForm'
 
 interface Props {
-  product: Product
-  country: Country
+  post: Post
   onComplete: () => void
 }
 
-export const NewPost = (props: Props) => {
+export const EditPost = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { product, country, onComplete } = props
+  const { post, onComplete } = props
 
   // --------------------- ===
   //  STATE
@@ -26,19 +25,13 @@ export const NewPost = (props: Props) => {
   //  HANDLERS
   // ---------------------
   const handleSubmit = async (values: FieldValues) => {
-    const user = getCookie('username')
-    const id = uuidv4()
     const { comment, score } = values
     setIsLoading(true)
-    await fetch('/api/posts', {
-      method: 'POST',
+    await fetch(`/api/posts/${post.id}`, {
+      method: 'PUT',
       body: JSON.stringify({
-        id,
-        country: country.id,
-        product: product.id,
         score,
         comment,
-        user,
       }),
     })
     setIsLoading(false)
@@ -48,5 +41,12 @@ export const NewPost = (props: Props) => {
   // --------------------- ===
   //  RENDER
   // ---------------------
-  return <PostForm onSubmit={handleSubmit} isLoading={isLoading} />
+  return (
+    <>
+      <p className="opacity-75 italic">Editing Post</p>
+      <div className="border border-orange-400 rounded">
+        <PostForm onSubmit={handleSubmit} isLoading={isLoading} post={post} />
+      </div>
+    </>
+  )
 }
