@@ -21,6 +21,8 @@ export const MapContainer = () => {
   const [modalContent, setModalContent] = useState<HTMLDivElement | null>(null)
   const [modalBg, setModalBg] = useState<HTMLDivElement | null>(null)
 
+  const [key, setKey] = useState(0)
+
   // --------------------- ===
   //  REFS
   // ---------------------
@@ -41,6 +43,7 @@ export const MapContainer = () => {
       onReverseComplete: () => {
         gsap.set(modalBg, { display: 'none' })
         gsap.set(modalContent, { display: 'none' })
+        setKey((prev) => prev + 1)
       },
     })
 
@@ -101,6 +104,7 @@ export const MapContainer = () => {
         ref={setModalContent}
       >
         <ScoreModal
+          key={key} // cheap reset
           selectedCountry={selectedCountry}
           selectedProduct={selectedProduct}
           isActive={isActive}
