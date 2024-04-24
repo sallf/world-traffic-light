@@ -39,7 +39,8 @@ export const buildMap = (
   mapContainer: HTMLDivElement,
   selectedProduct: Product,
   onSelectCountry: (country: Country) => void,
-  onToggleModal: (isActive: boolean) => void
+  onToggleModal: (isActive: boolean) => void,
+  scores: Scores['scores']
 ) => {
   const map = new mapboxgl.Map({
     container: mapContainer,
@@ -49,6 +50,33 @@ export const buildMap = (
     projection: { name: 'mercator' },
   })
   map.on('load', () => {
+    // Add source for country polygons using the Mapbox Countries tileset
+    // The polygons contain an ISO 3166 alpha-3 code which can be used to for joining the data
+    // https://docs.mapbox.com/vector-tiles/reference/mapbox-countries-v1
+    map.addSource('countries', {
+      type: 'vector',
+      url: 'mapbox://mapbox.country-boundaries-v1',
+    })
+
+    // Use the ISO 3166-1 alpha 3 code as the lookup key for the country shape
+    const matchExpression = ['match', ['get', 'iso_3166_1_alpha_3']]
+
+    const colorStops = [
+      [0, 'rgba(255, 0, 0, 1)'], // Red for score 0
+      [50, 'rgba(255, 255, 0, 1)'], // Yellow for score 50
+      [100, 'rgba(0, 255, 0, 1)'], // Green for score 100
+    ]
+
+    // // Calculate color values for each country
+    Object.entries(scores).forEach(([code, score]) => {
+      const color = 'rgba(0, 255, 0, 1)'
+      console.log('color :>> ', code, score, color)
+      matchExpression.push(code, color)
+    })
+
+    // default color for countries with no data
+    matchExpression.push('rgba(0, 0, 0, 0.1)')
+
     map.addLayer(
       {
         id: 'country-boundaries',
@@ -59,8 +87,9 @@ export const buildMap = (
         'source-layer': 'country_boundaries',
         type: 'fill',
         paint: {
-          'fill-color': '#149d4e',
-          'fill-opacity': 0.4,
+          'fill-color': matchExpression,
+          // 'fill-color': '#149d4e',
+          // 'fill-opacity': 0.4,
         },
       },
       'country-label'
