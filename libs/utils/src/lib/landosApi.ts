@@ -48,7 +48,7 @@ export async function deletePost(id: string) {
   return await handleFetch(request)
 }
 
-export async function getScores(params: FetchScores) {
+export async function getScores(params: Partial<FetchScores>) {
   const request = buildRequest(apiUrl, `scores`, {
     ...params,
   })
