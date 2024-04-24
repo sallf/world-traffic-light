@@ -15,13 +15,14 @@ interface Props {
   selectedProduct: Product
   isActive: boolean
   onClose: () => void
+  incKey: () => void
 }
 
 export const ScoreModal = (props: Props) => {
   // --------------------- ===
   //  PROPS
   // ---------------------
-  const { selectedCountry, selectedProduct, isActive, onClose } = props
+  const { incKey, selectedCountry, selectedProduct, isActive, onClose } = props
 
   // --------------------- ===
   //  STATE
@@ -70,6 +71,7 @@ export const ScoreModal = (props: Props) => {
   const handleFormReset = () => {
     setEditPost(null)
     setIsAddingPost(false)
+    incKey()
   }
 
   // --------------------- ===
@@ -136,6 +138,7 @@ export const ScoreModal = (props: Props) => {
             onEditClick={() => {
               setEditPost(post)
             }}
+            onReset={handleFormReset}
           />
         ))}
       </div>

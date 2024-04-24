@@ -67,16 +67,14 @@ const generateRequest = (
       newUrl.searchParams.append(key, body[key])
     })
     if (init.next) {
-      console.log('next tags :>> ', Object.values(body))
       // FIX: TAGS NOT WORKING
       init.next.tags = Object.values(body)
     }
   } else if (body) {
     init.method = options.method || 'POST'
     Object.values(body).forEach((val) => {
-      console.log('revalidateaTag :>> ', val)
       // FIX: TAGS NOT WORKING
-      revalidateTag(val)
+      // revalidateTag(val)
     })
     init.body = JSON.stringify(body)
   }

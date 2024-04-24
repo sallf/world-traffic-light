@@ -111,6 +111,7 @@ export const MapContainer = () => {
           onClose={() => {
             setIsActive(false)
           }}
+          incKey={() => setKey((prev) => prev + 1)} // cheap reset
         />
       </div>
     </div>
