@@ -43,7 +43,6 @@ export const MapContainer = () => {
       onReverseComplete: () => {
         gsap.set(modalBg, { display: 'none' })
         gsap.set(modalContent, { display: 'none' })
-        setKey((prev) => prev + 1)
       },
     })
 
