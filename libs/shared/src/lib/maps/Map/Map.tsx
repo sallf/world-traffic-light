@@ -43,7 +43,7 @@ export const Map = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapContainer, selectedProduct, scores]) // only mapContainer, selectedProduct, and scores
 
-  useMountEffect(() => {
+  useEffect(() => {
     const getScores = async () => {
       await fetch(`/api/scores?product=${selectedProduct.id}`)
         .then((res) => res.json())
@@ -52,7 +52,7 @@ export const Map = (props: Props) => {
         })
     }
     getScores()
-  })
+  }, [selectedProduct])
 
   // --------------------- ===
   //  RENDER
