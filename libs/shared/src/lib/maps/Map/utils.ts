@@ -8,6 +8,8 @@ const red = '#ED6A5A'
 const yellow = '#E0BA48'
 const green = '#36C98F'
 
+const popups: mapboxgl.Popup[] = []
+
 const getColor = (score: number) => {
   if (score < 50) {
     const color = Color(red)
@@ -20,7 +22,20 @@ const getColor = (score: number) => {
   }
 }
 
-const handleClick = async (
+export const getMatchExpression = (scores: Scores['scores']) => {
+  const matchExpression: Expression = ['match', ['get', 'iso_3166_1_alpha_3']]
+
+  Object.entries(scores).forEach(([code, score]) => {
+    const color = getColor(score)
+    matchExpression.push(code, color)
+  })
+
+  // default color for countries with no data
+  matchExpression.push(yellow)
+  return matchExpression
+}
+
+export const handleClick = async (
   e: mapboxgl.MapLayerMouseEvent,
   map: mapboxgl.Map,
   selectedProduct: Product,
@@ -28,6 +43,7 @@ const handleClick = async (
   onToggleModal: (isActive: boolean) => void
 ) => {
   if (!e.features?.[0]?.properties) return
+  if (popups.length) popups.forEach((popup) => popup.remove())
   const country = e.features[0].properties.iso_3166_1_alpha_3 as string
   const name = e.features[0].properties.name_en as string
 
@@ -37,6 +53,8 @@ const handleClick = async (
     .setLngLat(e.lngLat)
     .setDOMContent(buildPopup(name, '...', selectedProduct, () => null))
     .addTo(map)
+
+  popups.push(popup)
 
   const scores: Scores = await fetch(
     `/api/scores?country=${country}&product=${selectedProduct.id}`
@@ -58,7 +76,7 @@ export const buildMap = (
   selectedProduct: Product,
   onSelectCountry: (country: Country) => void,
   onToggleModal: (isActive: boolean) => void,
-  scores: Scores['scores']
+  setIsReady: (isReady: boolean) => void
 ) => {
   const map = new mapboxgl.Map({
     container: mapContainer,
@@ -76,18 +94,6 @@ export const buildMap = (
       url: 'mapbox://mapbox.country-boundaries-v1',
     })
 
-    // Use the ISO 3166-1 alpha 3 code as the lookup key for the country shape
-    const matchExpression: Expression = ['match', ['get', 'iso_3166_1_alpha_3']]
-
-    // // Calculate color values for each country
-    Object.entries(scores).forEach(([code, score]) => {
-      const color = getColor(score)
-      matchExpression.push(code, color)
-    })
-
-    // default color for countries with no data
-    matchExpression.push(yellow)
-
     map.addLayer(
       {
         id: 'country-boundaries',
@@ -98,8 +104,7 @@ export const buildMap = (
         'source-layer': 'country_boundaries',
         type: 'fill',
         paint: {
-          'fill-color': matchExpression,
-          // 'fill-color': '#149d4e',
+          'fill-color': yellow,
           'fill-opacity': 0.65,
         },
       },
@@ -117,6 +122,8 @@ export const buildMap = (
     map.on('click', 'country-boundaries', async (e) => {
       await handleClick(e, map, selectedProduct, onSelectCountry, onToggleModal)
     })
+
+    setIsReady(true)
   })
   return map
 }
