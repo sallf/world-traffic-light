@@ -53,6 +53,7 @@ export const Map = (props: Props) => {
       getMatchExpression(scores)
     )
     mapRef.current.on('click', 'country-boundaries', async (e) => {
+      if (!mapRef.current) return
       await handleClick(
         e,
         mapRef.current,
