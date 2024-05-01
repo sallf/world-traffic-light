@@ -8,6 +8,8 @@ const red = '#ED6A5A'
 const yellow = '#E0BA48'
 const green = '#36C98F'
 
+const popups: mapboxgl.Popup[] = []
+
 const getColor = (score: number) => {
   if (score < 50) {
     const color = Color(red)
@@ -33,7 +35,7 @@ export const getMatchExpression = (scores: Scores['scores']) => {
   return matchExpression
 }
 
-const handleClick = async (
+export const handleClick = async (
   e: mapboxgl.MapLayerMouseEvent,
   map: mapboxgl.Map,
   selectedProduct: Product,
@@ -41,6 +43,7 @@ const handleClick = async (
   onToggleModal: (isActive: boolean) => void
 ) => {
   if (!e.features?.[0]?.properties) return
+  if (popups.length) popups.forEach((popup) => popup.remove())
   const country = e.features[0].properties.iso_3166_1_alpha_3 as string
   const name = e.features[0].properties.name_en as string
 
@@ -50,6 +53,8 @@ const handleClick = async (
     .setLngLat(e.lngLat)
     .setDOMContent(buildPopup(name, '...', selectedProduct, () => null))
     .addTo(map)
+
+  popups.push(popup)
 
   const scores: Scores = await fetch(
     `/api/scores?country=${country}&product=${selectedProduct.id}`

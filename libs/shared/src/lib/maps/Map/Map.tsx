@@ -2,7 +2,7 @@
 
 import mapboxgl from 'mapbox-gl'
 import { useState, useEffect, useRef } from 'react'
-import { buildMap, getMatchExpression } from './utils'
+import { buildMap, getMatchExpression, handleClick } from './utils'
 import { Country, Product, Scores } from '@world-traffic-light/utils'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
@@ -43,7 +43,7 @@ export const Map = (props: Props) => {
     )
     setMap(mapRef.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapContainer]) // only mapContainer, selectedProduct, scores, and mapRef
+  }, [mapContainer]) // only mapContainer
 
   useEffect(() => {
     if (!mapRef.current || !isReady) return
@@ -52,7 +52,17 @@ export const Map = (props: Props) => {
       'fill-color',
       getMatchExpression(scores)
     )
-  }, [scores, isReady])
+    mapRef.current.on('click', 'country-boundaries', async (e) => {
+      await handleClick(
+        e,
+        mapRef.current,
+        selectedProduct,
+        onSelectCountry,
+        onToggleModal
+      )
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scores, isReady]) // only scores and isReady
 
   useEffect(() => {
     const getScores = async () => {
